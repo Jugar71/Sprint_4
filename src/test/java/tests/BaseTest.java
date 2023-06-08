@@ -13,8 +13,8 @@ public abstract class BaseTest {
 
     @Before
     public void webDriver() {
-        driver = new FirefoxDriver();
-        //driver = new ChromeDriver();
+        //driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.get(url);
     }
 
