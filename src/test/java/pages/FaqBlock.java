@@ -22,11 +22,8 @@ public class FaqBlock {
         this.driver = driver;
     }
 
-
     //Метод клика по вопросам
     public void clickQuestion(int number) {
-        //driver.findElement(acceptCookies).click();//Убираем куки
-
         questionLocator = "accordion__heading-" + number;//Формируем айди
         question = By.id(questionLocator);//Инициализируем локатор
 

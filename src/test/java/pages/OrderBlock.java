@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,39 +11,38 @@ import java.time.Duration;
 public class OrderBlock {
     private WebDriver driver;
 
-
     //Кнопка Заказать в хедере
-    private By headerOrder = By.xpath("//*[@id=\"root\"]/div/div/div[1]/div[2]/button[1]");
+    private By headerOrder = By.cssSelector("button.Button_Button__ra12g");
     //Кнопка Заказать на странице
-    private By middleOrder = By.xpath("//*[@id=\"root\"]/div/div/div[4]/div[2]/div[5]/button");
+    private By middleOrder = By.xpath("//div[5][@class=\"Home_FinishButton__1_cWm\"]/button[contains(text(), 'Заказать')]");
     //Имя
-    private By firstName = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input");
+    private By firstName = By.xpath("//input[@placeholder='* Имя']");
     //Фамилия
-    private By lastName = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/input");
+    private By lastName = By.xpath("//input[@placeholder='* Фамилия']");
     //Адрес
-    private By adress = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[3]/input");
+    private By adress = By.xpath("//input[@placeholder='* Адрес: куда привезти заказ']");
     //Метро
-    private By metro = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div/div/input");
+    private By metro = By.xpath("//input[@placeholder='* Станция метро']");
     //Телефон
-    private By phone = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[5]/input");
+    private By phone = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
     //Далее
-    private By nextButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[3]/button");
+    private By nextButton = By.xpath("//button[contains(text(), 'Далее')]");
     //Датапикер
-    private By datePicker = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/div[1]/div/input");
+    private By datePicker = By.xpath("//input[@placeholder='* Когда привезти самокат']");
     //Список по срокам аренды
-    private By rentPeriod = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div/div[1]");
+    private By rentPeriod = By.xpath("//div[1][@class=\"Dropdown-control\"]");
     //Цвет чёрный
-    private By colorBlack = By.xpath("//*[@id=\"black\"]");
+    private By colorBlack = By.xpath("//input[@id=\"black\"]");
     //Цвет серый
-    private By colorGrey = By.xpath("//*[@id=\"grey\"]");
+    private By colorGrey = By.xpath("//input[@id=\"grey\"]");
     //Комментарий
-    private By comment = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/input");
+    private By comment = By.xpath("//input[@placeholder='Комментарий для курьера']");
     //Кнопка Заказать в конце
-    private By finalOrder = By.xpath("//*[@id=\"root\"]/div/div[2]/div[3]/button[2]");
+    private By finalOrder = By.xpath("//button[2][contains(text(), 'Заказать')]");
     //Кнопка Да
-    private By yesButton = By.xpath("//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[2]");
+    private By yesButton = By.xpath("//button[2][contains(text(), 'Да')]");
     //Заказ оформлен
-    private By orderConfirmation = By.xpath("//*[@id=\"root\"]/div/div[2]/div[5]/div[1]");
+    private By orderConfirmation = By.xpath("//div[1][contains(text(), 'Заказ оформлен')]");
 
     public OrderBlock(WebDriver driver){
         this.driver = driver;
@@ -81,7 +79,7 @@ public class OrderBlock {
     public void enterMetro(int station) {
         driver.findElement(metro).click();
         //Ввести конкретную станцию
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div/div[2]/ul/li[" + station + "]")).click();
+        driver.findElement(By.xpath("//ul[@class=\"select-search__options\"]/li[" + station + "]")).click();
     }
 
     public void enterPhone(String ph) {
@@ -96,21 +94,22 @@ public class OrderBlock {
         WebElement wait = new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.visibilityOfElementLocated(datePicker));
         driver.findElement(datePicker).sendKeys(date);
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]")).click();//Кликнуть рядом, чтобы датапикер закрылся
+        driver.findElement(By.xpath("//div[2][@class=\"Order_Content__bmtHS\"]")).click();//Кликнуть рядом, чтобы датапикер закрылся
     }
 
     public void enterRentPeriod(int period) {
         driver.findElement(rentPeriod).click();
         //Выбрать конкретный срок
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div[" + period + "]")).click();
+        driver.findElement(By.xpath("//div[2][@class=\"Dropdown-menu\"]/div[" + period + "]")).click();
     }
 
-    public void enterСolorBlack() {
-        driver.findElement(colorBlack).click();
-    }
-
-    public void enterСolorGrey() {
-        driver.findElement(colorGrey).click();
+    public void enterСolor(String color) {
+        if(color.equals("black")) { // Выбираем цвет
+            driver.findElement(colorBlack).click();
+        }
+        if (color.equals("grey")) { //
+            driver.findElement(colorGrey).click();
+        }
     }
 
     public void enterComment(String comm) {

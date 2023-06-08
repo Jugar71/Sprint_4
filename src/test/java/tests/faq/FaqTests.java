@@ -1,19 +1,15 @@
 package tests.faq;
 
 import pages.FaqBlock;
+import tests.BaseTest;
 
-import org.openqa.selenium.WebDriver;
 import org.junit.Test;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 @RunWith(Parameterized.class)
-public class FaqTests {
-    private WebDriver driver;
+public class FaqTests extends BaseTest {
 
     private final int number;
     private final String answer;
@@ -24,7 +20,7 @@ public class FaqTests {
     }
 
     @Parameterized.Parameters
-    public static Object[][] getCities() {
+    public static Object[][] testCases() {
         return new Object[][] {
                 { 0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
                 { 1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
@@ -39,19 +35,11 @@ public class FaqTests {
 
     @Test
     public void checkAnswer() {
-        driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
         FaqBlock faqBlock = new FaqBlock(driver);
 
         faqBlock.clickQuestion(number);//Кликаем на вопрос
         String expected = answer;
         String actual = faqBlock.getAnswer(number);//Получаем ответ
         assertEquals("Текст не совпадает с эталоном", expected, actual);//Сравниваем
-    }
-
-    @After
-    public void teardown() {
-        driver.quit();
     }
 }
